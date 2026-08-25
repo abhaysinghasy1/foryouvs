@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Story</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#07090b;
+    --text:#f5f0ea;
+    --muted:#b8b2ac;
+    --accent:#d9a6a6;
+    --green:#55725d;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Inter",sans-serif;
+    overflow:hidden;
+}
+
+
+/* =========================
+   PASSWORD SCREEN
+========================= */
+
+#lockScreen{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(85,114,93,.20),
+            transparent 40%
+        ),
+        #07090b;
+
+    transition:opacity .8s ease;
+}
+
+.lockBox{
+    width:min(430px,100%);
+
+    padding:45px 30px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:28px;
+
+    background:rgba(15,18,20,.80);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.6);
+}
+
+.lockIcon{
+    width:70px;
+    height:70px;
+
+    margin:0 auto 25px;
+
+    border:1px solid rgba(217,166,166,.45);
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:28px;
+}
+
+.lockBox h1{
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:44px;
+    font-weight:500;
+
+    margin-bottom:10px;
+}
+
+.lockBox p{
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.7;
+
+    margin-bottom:25px;
+}
+
+.passwordArea{
+    display:flex;
+    gap:10px;
+}
+
+.passwordArea input{
+    flex:1;
+
+    min-width:0;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.13);
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    outline:none;
+
+    font-size:15px;
+}
+
+.passwordArea input:focus{
+    border-color:rgba(217,166,166,.5);
+}
+
+.passwordArea button{
+    padding:0 22px;
+
+    border:0;
+    border-radius:14px;
+
+    background:var(--accent);
+
+    color:#171011;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.passwordArea button:hover{
+    transform:translateY(-2px);
+}
+
+#error{
+    min-height:20px;
+
+    margin-top:14px;
+
+    color:#dc9090;
+
+    font-size:13px;
+}
+
+
+/* =========================
+   STORY
+========================= */
+
+#story{
+    display:none;
+
+    position:relative;
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+}
+
+
+/* Background */
+
+.backgroundGlow{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+}
+
+.glow1,
+.glow2{
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    border-radius:50%;
+
+    filter:blur(100px);
+
+    opacity:.14;
+}
+
+.glow1{
+    background:#55725d;
+
+    left:-120px;
+    top:5%;
+}
+
+.glow2{
+    background:#a96868;
+
+    right:-120px;
+    bottom:-50px;
+}
+
+
+/* Floating particles */
+
+.particle{
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    background:rgba(255,255,255,.5);
+
+    border-radius:50%;
+
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+
+    from{
+        transform:translateY(105vh);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.7;
+    }
+
+    85%{
+        opacity:.4;
+    }
+
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:2px;
+
+    background:rgba(255,255,255,.05);
+
+    z-index:100;
+}
+
+.progressBar{
+    width:14.28%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--green),
+            var(--accent)
+        );
+
+    transition:.6s ease;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:70px 20px 100px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:translateX(70px) scale(.98);
+
+    transition:
+        opacity .7s ease,
+        transform .8s ease;
+}
+
+.page.active{
+
+    opacity:1;
+
+    pointer-events:auto;
+
+    transform:translateX(0) scale(1);
+}
+
+.content{
+
+    width:min(850px,100%);
+
+    max-height:calc(100vh - 160px);
+
+    overflow-y:auto;
+
+    scrollbar-width:none;
+
+    padding:10px;
+}
+
+.content::-webkit-scrollbar{
+    display:none;
+}
+
+
+/* Chapter */
+
+.chapter{
+
+    color:var(--accent);
+
+    font-size:11px;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    margin-bottom:20px;
+}
+
+
+/* Headings */
+
+h1{
+
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:clamp(48px,8vw,88px);
+
+    line-height:.95;
+
+    font-weight:500;
+
+    margin-bottom:30px;
+}
+
+h2{
+
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:34px;
+
+    font-weight:500;
+
+    margin:30px 0 15px;
+}
+
+
+/* Text */
+
+p{
+
+    color:#d0cbc5;
+
+    font-size:16px;
+
+    line-height:1.95;
+
+    margin-bottom:18px;
+}
+
+strong{
+    color:white;
+}
+
+.highlight{
+    color:white;
+
+    font-weight:500;
+}
+
+
+/* Shayari */
+
+.quote{
+
+    margin:35px 0;
+
+    padding:25px;
+
+    border-left:2px solid var(--accent);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(217,166,166,.08),
+            transparent
+        );
+}
+
+.quote p{
+
+    margin:0;
+
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:24px;
+
+    line-height:1.55;
+
+    font-style:italic;
+
+    color:#eee7df;
+}
+
+
+/* =========================
+   UNIQUE PAGE LOOKS
+========================= */
+
+.page1{
+    text-align:center;
+}
+
+.page1 h1{
+    font-size:clamp(55px,10vw,105px);
+}
+
+.page2{
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(217,166,166,.06),
+            transparent 30%
+        );
+}
+
+.page3{
+    background:
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(85,114,93,.08),
+            transparent 35%
+        );
+}
+
+.page4{
+    background:
+        radial-gradient(
+            circle at 50% 0,
+            rgba(210,165,95,.07),
+            transparent 35%
+        );
+}
+
+.page5{
+    background:
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(169,104,104,.07),
+            transparent 35%
+        );
+}
+
+.page6{
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(85,114,93,.08),
+            transparent 30%
+        );
+}
+
+.page7{
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(217,166,166,.09),
+            transparent 45%
+        );
+}
+
+
+/* Special cards */
+
+.card{
+
+    padding:25px;
+
+    margin:30px 0;
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.025);
+}
+
+
+/* Crossroad */
+
+.crossroad{
+
+    width:min(500px,100%);
+
+    height:120px;
+
+    margin:35px auto;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.crossroad::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+    height:2px;
+
+    top:50%;
+    left:0;
+
+    background:rgba(255,255,255,.09);
+}
+
+.crossroad::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:2px;
+    height:100%;
+
+    top:0;
+    left:50%;
+
+    background:rgba(255,255,255,.09);
+}
+
+.crossroad span{
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    padding:10px 15px;
+
+    background:#07090b;
+
+    color:var(--accent);
+
+    font-size:10px;
+
+    letter-spacing:3px;
+
+    white-space:nowrap;
+}
+
+
+/* Final heart */
+
+.finalHeart{
+
+    font-size:55px;
+
+    margin-top:30px;
+
+    animation:heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.18);
+    }
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navigation{
+
+    position:fixed;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    z-index:200;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+}
+
+.navButton{
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(15,18,20,.75);
+
+    backdrop-filter:blur(12px);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.navButton:hover{
+    background:rgba(255,255,255,.10);
+    transform:translateY(-2px);
+}
+
+.navButton:disabled{
+
+    opacity:.25;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+.counter{
+
+    color:#88837d;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    min-width:55px;
+
+    text-align:center;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .lockBox{
+        padding:38px 22px;
+    }
+
+    .lockBox h1{
+        font-size:37px;
+    }
+
+    .passwordArea{
+        flex-direction:column;
+    }
+
+    .passwordArea button{
+        height:50px;
+    }
+
+    .page{
+        padding:70px 18px 95px;
+
+        align-items:flex-start;
+    }
+
+    .content{
+        max-height:calc(100vh - 145px);
+    }
+
+    h1{
+        font-size:50px;
+    }
+
+    p{
+        font-size:15px;
+        line-height:1.85;
+    }
+
+    .quote p{
+        font-size:21px;
+    }
+
+    .navigation{
+        bottom:16px;
+    }
+
+    .navButton{
+        padding:11px 16px;
+    }
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     PASSWORD SCREEN
+===================================== -->
+
+<div id="lockScreen">
+
+    <div class="lockBox">
+
+        <div class="lockIcon">
+            🔐
+        </div>
+
+        <h1>
+            For Your Eyes Only
+        </h1>
+
+        <p>
+            Some stories are not meant to be opened by everyone.
+            <br>
+            This one is only for you.
+        </p>
+
+        <div class="passwordArea">
+
+            <input
+                type="password"
+                id="passwordInput"
+                placeholder="Enter password"
+                autocomplete="off"
+            >
+
+            <button id="openButton">
+                Open
+            </button>
+
+        </div>
+
+        <div id="error"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================
+     STORY
+===================================== -->
+
+<div id="story">
+
+
+    <!-- Background -->
+
+    <div class="backgroundGlow">
+
+        <div class="glow1"></div>
+        <div class="glow2"></div>
+
+        <span
+            class="particle"
+            style="left:10%;animation-duration:14s;"
+        ></span>
+
+        <span
+            class="particle"
+            style="left:25%;animation-duration:18s;animation-delay:2s;"
+        ></span>
+
+        <span
+            class="particle"
+            style="left:40%;animation-duration:16s;animation-delay:4s;"
+        ></span>
+
+        <span
+            class="particle"
+            style="left:60%;animation-duration:20s;animation-delay:1s;"
+        ></span>
+
+        <span
+            class="particle"
+            style="left:75%;animation-duration:15s;animation-delay:5s;"
+        ></span>
+
+        <span
+            class="particle"
+            style="left:90%;animation-duration:19s;animation-delay:3s;"
+        ></span>
+
+    </div>
+
+
+    <!-- Progress -->
+
+    <div class="progress">
+
+        <div
+            class="progressBar"
+            id="progressBar"
+        ></div>
+
+    </div>
+
+
+
+    <!-- =================================
+         PAGE 1
+    ================================= -->
+
+    <section class="page page1 active">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 01 · The Beginning
+            </div>
+
+            <h1>
+                I Had No Idea<br>
+                That Day Would<br>
+                Become So Special…
+            </h1>
+
+            <p>
+                It was the time of our 10th board exams.
+                Classes weren't going on, but we still used to go to coaching.
+                I studied at Mukesh Sir's coaching, while you studied at V1.
+            </p>
+
+            <p>
+                That day, I was standing at the crossroads
+                with Diwakar, Vivek and Aryaveer.
+            </p>
+
+            <p>
+                You, Divya and Smariti were coming from
+                the side of <strong>Sanskriti School.</strong>
+            </p>
+
+            <p>
+                And that day, something happened that you
+                probably don't even remember.
+            </p>
+
+            <p>
+                You weren't wearing a mask.
+            </p>
+
+            <p>
+                And maybe that was the first time
+                I properly saw your face.
+            </p>
+
+            <p>
+                You were wearing a
+                <strong>dark green top.</strong>
+            </p>
+
+            <p>
+                Maybe you don't remember what you were
+                wearing that day.
+                Maybe you don't even remember that particular moment.
+            </p>
+
+            <p>
+                But I do.
+            </p>
+
+            <p>
+                Because for me, that wasn't just another normal day.
+            </p>
+
+            <p class="highlight">
+                That was the day I started having feelings for you.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “I saw a face among the crowd that day,<br>
+                    and somehow, my heart chose to stay.<br>
+                    I didn't know what I was feeling then,<br>
+                    I just knew I wanted to see that face again.”
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 2
+    ================================= -->
+
+    <section class="page page2">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 02 · The First Step
+            </div>
+
+            <h1>
+                And Then<br>
+                I Took The<br>
+                First Step…
+            </h1>
+
+            <p>
+                After that day, I kept thinking about you.
+            </p>
+
+            <p>
+                So eventually, I was the one who
+                messaged you first.
+            </p>
+
+            <p>
+                Maybe even I didn't know where that
+                one message was going to take me.
+            </p>
+
+            <p>
+                We started talking.
+            </p>
+
+            <p>
+                I think it had only been three or four days
+                when I decided to tell you what I actually felt.
+            </p>
+
+            <p>
+                I confessed my feelings.
+            </p>
+
+            <p>
+                But your answer wasn't what my heart had hoped for.
+            </p>
+
+            <p class="highlight">
+                You said no.
+            </p>
+
+            <p>
+                You told me that you weren't interested
+                in these things.
+            </p>
+
+            <p>
+                You even said a few more things to me at that time.
+            </p>
+
+            <p>
+                And after that…
+            </p>
+
+            <p class="highlight">
+                We stopped talking.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “I told you what my heart wanted to say,<br>
+                    but your answer pushed me away.<br>
+                    I thought that was the end of our story,<br>
+                    but my heart wasn't ready to let you go.”
+                </p>
+
+            </div>
+
+            <p>
+                Maybe I thought the story had ended there.
+            </p>
+
+            <p class="highlight">
+                But I didn't know…
+                that it was only the beginning.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 3
+    ================================= -->
+
+    <section class="page page3">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 03 · A Little Secret
+            </div>
+
+            <h1>
+                Then Came<br>
+                The Dimension<br>
+                Chapter…
+            </h1>
+
+            <p>
+                A few days later, I messaged you again.
+            </p>
+
+            <p>
+                That's when I found out that you were
+                thinking about doing non-schooling from Dimension.
+            </p>
+
+            <p>
+                You told me that your family wanted you
+                to go to ABC.
+            </p>
+
+            <p>
+                Maybe Bhaiya had also suggested that
+                you do non-schooling.
+            </p>
+
+            <p>
+                And somewhere, you also wanted to come to ABC.
+            </p>
+
+            <p>
+                But eventually, you joined Dimension.
+            </p>
+
+            <div class="card">
+
+                <p>
+                    Then something happened there.
+                </p>
+
+                <p>
+                    You had a fight with a girl at Dimension.
+                </p>
+
+                <p>
+                    Anand told me about it.
+                </p>
+
+                <p>
+                    So I messaged you around that time.
+                </p>
+
+                <p>
+                    You didn't really want to tell me what had happened.
+                    But I already knew.
+                </p>
+
+            </div>
+
+            <p>
+                I told you everything that had happened at the coaching.
+            </p>
+
+            <p>
+                You were surprised.
+            </p>
+
+            <p class="highlight">
+                “How do you know all this?”
+            </p>
+
+            <p>
+                Not once.
+            </p>
+
+            <p>
+                You asked me almost four or five times.
+            </p>
+
+            <p>
+                But I never told you that Anand had told me.
+            </p>
+
+            <p>
+                And that was the first time…
+            </p>
+
+            <p class="highlight">
+                I lied to you.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “Sometimes a lie isn't born from a bad intention,<br>
+                    sometimes it's born from the fear of losing someone.”
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 4
+    ================================= -->
+
+    <section class="page page4">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 04 · Navratri
+            </div>
+
+            <h1>
+                Then Came<br>
+                Navratri…
+            </h1>
+
+            <p>
+                After some time, something happened
+                that still feels like more than just a coincidence.
+            </p>
+
+            <p>
+                It was Navratri.
+            </p>
+
+            <p>
+                And somehow, we met again.
+            </p>
+
+            <p>
+                You were there.
+            </p>
+
+            <p>
+                I was there too.
+            </p>
+
+            <p>
+                Diwakar and Vivek were literally trying
+                to stop me and saying—
+            </p>
+
+            <p class="highlight">
+                “Bro, go meet her.”
+            </p>
+
+            <p>
+                But I didn't.
+            </p>
+
+            <p>
+                Because one thought was going through my mind—
+            </p>
+
+            <p class="highlight">
+                “Maybe she won't like it if I go.”
+            </p>
+
+            <p>
+                So I walked away.
+            </p>
+
+            <p>
+                Maybe it sounds like a very small thing now.
+                But at that moment, I thought respecting your
+                comfort was more important than meeting you.
+            </p>
+
+            <p>
+                After some time, you guys came there too.
+            </p>
+
+            <p>
+                And later, Diwakar and Vivek gave me an earful
+                for leaving like that.
+            </p>
+
+            <p>
+                Then we all went away.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “You were right there, but I still walked away,<br>
+                    not because I didn't want to meet you,<br>
+                    but because I was scared you wouldn't want me to stay.”
+                </p>
+
+            </div>
+
+            <p class="highlight">
+                But once again…
+                the story didn't end.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 5
+    ================================= -->
+
+    <section class="page page5">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 05 · The Same Story
+            </div>
+
+            <h1>
+                And Then<br>
+                The Same Story<br>
+                Started Repeating…
+            </h1>
+
+            <p>
+                After that, we would talk once in a while.
+            </p>
+
+            <p>
+                Sometimes I would message you after a few months.
+            </p>
+
+            <p>
+                We would talk for two or three days.
+                Sometimes maybe four or five days at most.
+            </p>
+
+            <p>
+                And then…
+            </p>
+
+            <p>
+                You would delete Snapchat.
+            </p>
+
+            <p>
+                Or you would say a few things to me and tell me—
+            </p>
+
+            <p class="highlight">
+                “Don't message me again.”
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “Every time you said, ‘Don't message me again,’<br>
+                    I told myself, ‘Okay, this time I won't.’”
+                </p>
+
+            </div>
+
+            <p>
+                And me?
+            </p>
+
+            <p>
+                I would stay quiet.
+            </p>
+
+            <p>
+                For a few days.
+                Sometimes weeks.
+                Sometimes months.
+            </p>
+
+            <p>
+                And then somehow…
+            </p>
+
+            <p class="highlight">
+                I would come back and message you again.
+            </p>
+
+            <p>
+                Maybe from your point of view,
+                it looked like I just didn't understand
+                what you were saying.
+            </p>
+
+            <p>
+                But honestly, even I couldn't understand
+                why I kept coming back.
+            </p>
+
+            <p>
+                Maybe because it's easy to tell your mind
+                to move on.
+                But it's not always that easy to convince your heart.
+            </p>
+
+            <p>
+                You kept creating distance…
+                and I kept finding my way back to you.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 6
+    ================================= -->
+
+    <section class="page page6">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 06 · Another Coincidence
+            </div>
+
+            <h1>
+                Then You<br>
+                Started College…
+            </h1>
+
+            <p>
+                Time kept moving.
+            </p>
+
+            <p>
+                Then your college started.
+            </p>
+
+            <p>
+                We talked around that time too.
+            </p>
+
+            <p>
+                You told me about your hostel.
+            </p>
+
+            <p>
+                We talked about your college life.
+            </p>
+
+            <p>
+                But somehow, even then,
+                our conversations didn't last very long.
+            </p>
+
+            <p>
+                And once again…
+            </p>
+
+            <p class="highlight">
+                We stopped talking.
+            </p>
+
+            <p>
+                And then something happened again.
+            </p>
+
+            <p class="highlight">
+                Another coincidence.
+            </p>
+
+            <div class="crossroad">
+
+                <span>
+                    Ranidiha Chauraha
+                </span>
+
+            </div>
+
+            <p>
+                We met at Ranidiha Chauraha.
+            </p>
+
+            <p>
+                After all that time.
+            </p>
+
+            <p>
+                After all those conversations.
+            </p>
+
+            <p>
+                After all those moments of getting close
+                and then becoming strangers again.
+            </p>
+
+            <p>
+                Another crossroads.
+            </p>
+
+            <p>
+                And there we were…
+                once again, somewhere in the same story.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “The road brought us back to where we least expected,<br>
+                    after all the distance, after all the things left unsaid.”
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         PAGE 7
+    ================================= -->
+
+    <section class="page page7">
+
+        <div class="content">
+
+            <div class="chapter">
+                Chapter 07 · To Be Continued
+            </div>
+
+            <h1>
+                Maybe This<br>
+                Wasn't The End…
+            </h1>
+
+            <p>
+                Maybe our story has always had something
+                with crossroads.
+            </p>
+
+            <p>
+                Because the story that started at one crossroads…
+                somehow brought us back to another one.
+            </p>
+
+            <p>
+                We got close.
+                We became distant.
+                We stopped talking.
+                We talked again.
+                We walked away.
+                And somehow, life kept putting us
+                in the same story.
+            </p>
+
+            <div class="quote">
+
+                <p>
+                    “Maybe it wasn't just a coincidence,<br>
+                    maybe our story simply wasn't finished yet.”
+                </p>
+
+            </div>
+
+            <p>
+                And maybe…
+            </p>
+
+            <p class="highlight">
+                that wasn't the end of our story either.
+            </p>
+
+            <p>
+                Maybe it was simply the beginning
+                of the next chapter.
+            </p>
+
+            <p>
+                <strong>
+                    And this time, I don't want to write
+                    the next chapter alone.
+                </strong>
+            </p>
+
+            <div class="finalHeart">
+                ❤️
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         NAVIGATION
+    ================================= -->
+
+    <div class="navigation">
+
+        <button
+            class="navButton"
+            id="prevButton"
+            disabled
+        >
+            ← Back
+        </button>
+
+        <div
+            class="counter"
+            id="counter"
+        >
+            01 / 07
+        </div>
+
+        <button
+            class="navButton"
+            id="nextButton"
+        >
+            Next →
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+const PASSWORD = "VARTIKA1908";
+
+
+const lockScreen =
+    document.getElementById("lockScreen");
+
+const story =
+    document.getElementById("story");
+
+const passwordInput =
+    document.getElementById("passwordInput");
+
+const openButton =
+    document.getElementById("openButton");
+
+const error =
+    document.getElementById("error");
+
+
+/* Open button */
+
+openButton.addEventListener("click", checkPassword);
+
+
+/* Enter key */
+
+passwordInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+            checkPassword();
+        }
+
+    }
+);
+
+
+/* Check password */
+
+function checkPassword(){
+
+    const enteredPassword =
+        passwordInput.value.trim().toUpperCase();
+
+
+    if(enteredPassword === PASSWORD){
+
+        error.textContent = "";
+
+        lockScreen.style.opacity = "0";
+
+        setTimeout(function(){
+
+            lockScreen.style.display = "none";
+
+            story.style.display = "block";
+
+        },800);
+
+
+    }else{
+
+        error.textContent =
+            "Wrong password. Try again ❤️";
+
+        passwordInput.value = "";
+
+        passwordInput.focus();
+
+    }
+
+}
+
+
+
+/* =========================================
+   PAGE SYSTEM
+========================================= */
+
+const pages =
+    document.querySelectorAll(".page");
+
+const nextButton =
+    document.getElementById("nextButton");
+
+const prevButton =
+    document.getElementById("prevButton");
+
+const counter =
+    document.getElementById("counter");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+
+let currentPage = 0;
+
+
+function showPage(index){
+
+    if(index < 0 || index >= pages.length){
+        return;
+    }
+
+
+    pages.forEach(function(page, i){
+
+        if(i === index){
+
+            page.classList.add("active");
+
+            const content =
+                page.querySelector(".content");
+
+            if(content){
+                content.scrollTop = 0;
+            }
+
+        }else{
+
+            page.classList.remove("active");
+
+        }
+
+    });
+
+
+    currentPage = index;
+
+
+    prevButton.disabled =
+        currentPage === 0;
+
+
+    nextButton.disabled =
+        currentPage === pages.length - 1;
+
+
+    counter.textContent =
+        String(currentPage + 1).padStart(2,"0")
+        +
+        " / "
+        +
+        String(pages.length).padStart(2,"0");
+
+
+    progressBar.style.width =
+        (
+            ((currentPage + 1) / pages.length)
+            * 100
+        )
+        +
+        "%";
+
+}
+
+
+/* Next */
+
+nextButton.addEventListener(
+    "click",
+    function(){
+
+        showPage(currentPage + 1);
+
+    }
+);
+
+
+/* Back */
+
+prevButton.addEventListener(
+    "click",
+    function(){
+
+        showPage(currentPage - 1);
+
+    }
+);
+
+
+/* Keyboard */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(story.style.display !== "block"){
+            return;
+        }
+
+
+        if(event.key === "ArrowRight"){
+
+            showPage(currentPage + 1);
+
+        }
+
+
+        if(event.key === "ArrowLeft"){
+
+            showPage(currentPage - 1);
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   MOBILE SWIPE
+========================================= */
+
+let startX = 0;
+
+
+document.addEventListener(
+    "touchstart",
+    function(event){
+
+        startX =
+            event.changedTouches[0].screenX;
+
+    },
+    {passive:true}
+);
+
+
+document.addEventListener(
+    "touchend",
+    function(event){
+
+        const endX =
+            event.changedTouches[0].screenX;
+
+
+        const difference =
+            endX - startX;
+
+
+        if(Math.abs(difference) < 60){
+            return;
+        }
+
+
+        if(difference < 0){
+
+            showPage(currentPage + 1);
+
+        }else{
+
+            showPage(currentPage - 1);
+
+        }
+
+    },
+    {passive:true}
+);
+
+</script>
+
+</body>
+</html>
